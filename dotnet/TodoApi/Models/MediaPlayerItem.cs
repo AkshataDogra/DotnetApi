@@ -11,21 +11,27 @@ namespace TodoApi.Models
         // mySongsList.Add("abc", "def"); 
     }
 
-    class MediaPlayerItems
+    public class SongSequenceRequest
     {
-        MediaPlayerItem sOne= new MediaPlayerItem {
-            Id = 101,  
-            SongName = "Ik Onkaar",  
-            Sequence = 1   
-        };
-
-        MediaPlayerItem sTwo= new MediaPlayerItem {
-            Id = 102,  
-                SongName = "Rewrite the Stars",  
-                Sequence = 2   
-        };
-
-        // public List<MediaPlayerItem> SongList = new List<MediaPlayerItem>();
-        // SongList.Add(sOne):
+        public IList<MediaPlayerItem> SongList { get; set; }
+        
     }
+
+    // class MediaPlayerItems
+    // {
+    //     MediaPlayerItem sOne= new MediaPlayerItem {
+    //         Id = 101,  
+    //         SongName = "Ik Onkaar",  
+    //         Sequence = 1   
+    //     };
+
+    //     MediaPlayerItem sTwo= new MediaPlayerItem {
+    //         Id = 102,  
+    //             SongName = "Rewrite the Stars",  
+    //             Sequence = 2   
+    //     };
+
+    //     // public List<MediaPlayerItem> SongList = new List<MediaPlayerItem>();
+    //     // SongList.Add(sOne):
+    // }
 }
