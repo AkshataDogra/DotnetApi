@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TodoApi.Models;
+using System;
 
 namespace TodoApi.Controllers
 {
@@ -46,9 +47,21 @@ namespace TodoApi.Controllers
                 });
 
                  _context.MediaPlayerItems.Add(new MediaPlayerItem {
-                    // Id = 105,  
+                    Id = 105,  
                     SongName = "High Hopes",  
                     Sequence = 5
+                });
+
+                _context.MediaPlayerItems.Add(new MediaPlayerItem {
+                    Id = 106,  
+                    SongName = "Free Fall",  
+                    Sequence = 6
+                });
+
+                _context.MediaPlayerItems.Add(new MediaPlayerItem {
+                    Id = 107,  
+                    SongName = "Stay With Me",  
+                    Sequence = 7
                 });
 
                 _context.SaveChanges();
@@ -79,12 +92,27 @@ namespace TodoApi.Controllers
 
         // POST: api/Todo
         [HttpPost]
-        public async Task<ActionResult<MediaPlayerItem>> PostMediaPlayerItem(MediaPlayerItem item)
+        public async Task<ActionResult<String>> PostMediaPlayerItem(SongSequenceRequest request)
         {
-            _context.MediaPlayerItems.Add(item);
-            await _context.SaveChangesAsync();
+            if (request == null)
+            {
+                return BadRequest();
+            }
+            var items = _context.MediaPlayerItems;
+            _context.MediaPlayerItems.RemoveRange(_context.MediaPlayerItems);
+            _context.SaveChanges();
+            for(int j=0;j<request.SongList.Count;j++){
+                request.SongList[j].Sequence = j+1;
+                _context.MediaPlayerItems.Add(request.SongList[j]);
+            }
+            _context.SaveChanges();
+            // for(int i=0;i<request.SongList.Count;i++){
+            //     _context.MediaPlayerItems.ElementAt(i).Sequence = request.SongList[i];
+            // }
+             //_context.MediaPlayerItems.Add(item);
+             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetMediaPlayerItem), new { id = item.Id }, item);
+            return "Succusfully Updated Sequence!!!";
         }
 
         // PUT: api/Todo/id
@@ -101,6 +129,25 @@ namespace TodoApi.Controllers
 
             return NoContent();
         }
+
+        // POST: api/shuffle
+        // [HttpPost]
+        // public async Task<ActionResult<String>> ShuffleMediaPlayerItem(SongSequenceRequest request)
+        // {
+        //     if (request == null)
+        //     {
+        //         return BadRequest();
+        //     }
+        //     Console.WriteLine("Inside");
+        //     for(int i=0;i<request.SongList.Count;i++){
+        //         _context.MediaPlayerItems.Find(i).Sequence = request.SongList[i];
+        //     }
+            
+        //     // _context.Entry(item).State = EntityState.Modified;
+        //     // await _context.SaveChangesAsync();
+
+        //     return "Hello";
+        // }
 
         // DELETE: api/Todo/id
         [HttpDelete("{id}")]
